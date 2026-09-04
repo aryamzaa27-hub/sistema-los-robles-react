@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema Los Robles</title>
+
+  <!-- Cargar React y Babel directamente desde Internet -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; }
+    .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    header { background-color: #2c3e50; color: white; padding: 20px; border-radius: 8px; text-align: center; }
+    .aviso { border-left: 4px solid #3498db; padding: 10px 15px; margin: 15px 0; background-color: #f8f9fa; }
+    .form-group { margin-top: 30px; background-color: #ecf0f1; padding: 20px; border-radius: 8px; }
+    textarea { width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box; }
+    button { margin-top: 10px; background-color: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 16px; }
+    .mensaje-exito { color: green; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <!-- Contenedor donde se dibuja React -->
+  <div id="root"></div>
+
+  <!-- Código React -->
+  <script type="text/babel">
+    function App() {
+      const [mensaje, setMensaje] = React.useState('');
+      const [enviado, setEnviado] = React.useState(false);
+
+      const avisos = [
+        { id: 1, titulo: "Mantenimiento de Áreas Verdes", fecha: "05 de Septiembre", desc: "Podado de jardines principales a partir de las 8:00 AM." },
+        { id: 2, titulo: "Asamblea General de Vecinos", fecha: "12 de Septiembre", desc: "Reunión en la palapa comunitaria para revisión de presupuesto." }
+      ];
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (mensaje.trim()) {
+          setEnviado(true);
+          setMensaje('');
+        }
+      };
+
+      return (
+        <div className="container">
+          <header>
+            <h1>Sistema de Administración Comunitaria Los Robles</h1>
+            <p>Portal Oficial de Atención Residencial</p>
+          </header>
+
+          <section>
+            <h2>Avisos Comunitarios</h2>
+            {avisos.map(item => (
+              <div key={item.id} className="aviso">
+                <h3>{item.titulo}</h3>
+                <small>{item.fecha}</small>
+                <p>{item.desc}</p>
+              </div>
+            ))}
+          </section>
+
+          <section className="form-group">
+            <h2>Contacto con Administración</h2>
+            {enviado && <p className="mensaje-exito">¡Mensaje enviado con éxito a la administración!</p>}
+            <form onSubmit={handleSubmit}>
+              <textarea 
+                rows="4" 
+                placeholder="Escriba su reporte o sugerencia aquí..."
+                value={mensaje}
+                onChange={(e) => setMensaje(e.target.value)}
+                required
+              />
+              <br />
+              <button type="submit">Enviar Reporte</button>
+            </form>
+          </section>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+
+</body>
+</html>
